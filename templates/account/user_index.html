@@ -1,0 +1,37 @@
+{% extends 'jenkins/jenkins_index.html' %}
+{% load  mytags %}
+
+{% block left %}
+
+
+
+{% endblock %}
+
+
+{% block right %}
+
+          <h2 class="sub-header">修改密码</h2>
+
+    <h5 style="color: red">{{ err_msg }}</h5>
+
+          <div>
+          <form method="post">
+              {% csrf_token %}
+              <div style="margin-top: 20px;"><span style="font-size: 20px;display:inline-block;width:110px;">原密码: </span><input name="old_password" type="password"></div>
+              <div style="margin-top: 20px;"><span style="font-size: 20px;display:inline-block;width:110px;">新密码: </span><input name="new_password1" type="password"></div>
+              <div style="margin-top: 20px;"><span style="font-size: 20px;display:inline-block;width:110px;">确认新密码: </span><input name="new_password2" type="password"></div>
+              <input style="margin-top: 25px;width:50px;height:40px;background-color: #c4e3f3" type="submit" value="保存">
+
+
+          </form>
+
+          </div>
+
+
+
+
+
+
+    {% endblock %}
+
+

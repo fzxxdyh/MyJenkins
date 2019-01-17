@@ -1,0 +1,31 @@
+
+{% extends 'jenkins/base.html' %}
+
+    {% block content %}
+            <br><br><br>
+
+            <div class="container">
+
+              <form class="form-signin" action="{% url 'account_login' %}" method="post">
+                 {% csrf_token %}
+                <h2 class="form-signin-heading">请登陆</h2>
+                <label for="inputEmail" class="sr-only">Email address</label>
+                <input name="_username" type="text" id="inputEmail" class="form-control" placeholder="账号" required="" autofocus="">
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input name="_password" type="password" id="inputPassword" class="form-control" placeholder="密码" required="">
+               <!--
+                <div class="checkbox">
+                  <label>
+                    <input type="checkbox" value="remember-me"> 记住用户名
+                  </label>
+                </div>
+                -->
+                <button class="btn btn-lg btn-primary btn-block" type="submit">登陆</button>
+              </form>
+
+            </div> <!-- /container -->
+
+
+
+
+    {% endblock %}

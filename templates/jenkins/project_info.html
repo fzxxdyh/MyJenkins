@@ -1,0 +1,446 @@
+{% extends 'jenkins/jenkins_index.html' %}
+{% load mytags %}
+
+
+
+{% block left %}
+        <div class="col-sm-3 col-md-2 sidebar">
+        <form id="_form" method="post" action="{% url 'project_build' project_id %}">
+                {% csrf_token %}
+        </form>
+          <ul class="nav nav-sidebar">
+            <li class="active"><a href="{% url 'jenkins_index' %}">主页 <span class="sr-only">(current)</span></a></li>
+            <li><a href="{% url 'jenkins_index' %}">返回面板</a></li>
+
+
+           {% if user.is_admin %}
+            <li><a href="{% url 'project_delete' project_id %}">删除项目</a></li>
+            <li><a href="{% url 'project_modify' project_id %}" >配置</a>
+
+          {% endif %}
+
+          <li><a target="_self" href="javascript:void(0)" onclick="document.getElementById('_form').submit();">立即构建</a></li>
+
+          </ul>
+
+            <!--
+          <ul class="nav nav-sidebar">
+            <li><a href="https://v3.bootcss.com/examples/dashboard/">Nav item</a></li>
+            <li><a href="https://v3.bootcss.com/examples/dashboard/">Nav item again</a></li>
+            <li><a href="https://v3.bootcss.com/examples/dashboard/">One more nav</a></li>
+            <li><a href="https://v3.bootcss.com/examples/dashboard/">Another nav item</a></li>
+            <li><a href="https://v3.bootcss.com/examples/dashboard/">More navigation</a></li>
+          </ul>
+          <ul class="nav nav-sidebar">
+            <li><a href="https://v3.bootcss.com/examples/dashboard/">Nav item again</a></li>
+            <li><a href="https://v3.bootcss.com/examples/dashboard/">One more nav</a></li>
+            <li><a href="https://v3.bootcss.com/examples/dashboard/">Another nav item</a></li>
+          </ul>
+          -->
+
+        </div>
+{% endblock %}
+
+
+
+
+
+
+{% block right %}
+
+<h3 class="sub-header">项目信息</h3>
+          <div class="table-responsive">
+            <table class="table table-striped">
+              <thead>
+                <tr>
+                  <th>序号</th>
+                  <th>项目名称</th>
+                  <th>项目备注</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              {% display_projects query_sets %}
+
+                <!--
+                <tr>
+                  <td>1,001</td>
+                  <td>Lorem</td>
+                  <td>ipsum</td>
+
+                </tr>
+                <tr>
+                  <td>1,002</td>
+                  <td>amet</td>
+                  <td>consectetur</td>
+
+                </tr>
+                <tr>
+                  <td>1,003</td>
+                  <td>Integer</td>
+                  <td>nec</td>
+
+                </tr>
+                -->
+
+
+
+              </tbody>
+            </table>
+
+
+                <!-- webkitdirectory -->
+
+           <!-- 
+           <form id="myform">
+                {% csrf_token %}
+                {% if project_name in file_project %}
+                    <input type="file" name="upload_files" id="selectFiles"      multiple  />
+                {% else %}
+                    <input type="file" name="upload_files" id="selectFiles"  webkitdirectory    multiple  />
+                {% endif %}
+            </form>
+           -->
+            
+
+              
+              {% if project_name not in noupload_project %}
+
+                    <div style="float:left;margin-top: 3px;"><label>上传整个项目目录：</label></div><div style="float: left;"><input  type="file" name="upload_folder" id="selectFolder" onchange="upload(this, 'full')"  webkitdirectory    multiple  /></div>
+
+                    <div style="float:left;margin-top: 3px;"><label>在当前路径上传项目文件：</label></div><div style="float: left"><input type="file" name="upload_files" id="selectFiles"  onchange="upload(this, 'inc')"    multiple  /></div>
+
+
+              {% endif %}
+
+            <div style="clear: both;" id="current_path">
+                    <label>当前路径:</label>
+                        <a mytag="loop_file" aid="1" href="javascript:void(0)" onclick="change_path(this)">{{ project_name }}</a>
+                        <span sid="1">></span>
+            </div>
+
+            <div id="display_path">
+
+
+            </div>
+              
+
+
+
+          </div>
+
+
+
+<br/><br/>
+<div id="upload_result"></div>
+<div id="upload_info"></div>
+<br><br>
+
+
+<h3 class="sub-header">构建历史</h3>
+<div class="table-responsive">
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>序号</th>
+      <th>构建时间</th>
+      <th>用户</th>
+        {% if user.is_admin %}
+        <th>删除</th>
+        {% endif %}
+    </tr>
+  </thead>
+  <tbody>
+
+{#                <!--#}
+{#              {% display_history files username project_name %}#}
+{#              -->#}
+
+    {% display_history history_query_sets username project_name user %}
+
+    <!--
+    <tr>
+      <td>1,001</td>
+      <td>Lorem</td>
+      <td>ipsum</td>
+
+    </tr>
+    <tr>
+      <td>1,002</td>
+      <td>amet</td>
+      <td>consectetur</td>
+
+    </tr>
+    <tr>
+      <td>1,003</td>
+      <td>Integer</td>
+      <td>nec</td>
+
+    </tr>
+    -->
+
+
+
+  </tbody>
+</table>
+
+</div>
+
+
+<nav>
+  <ul class="pagination">
+      {% if history_query_sets.has_previous %}
+            <li class=""><a href="?page={{ history_query_sets.previous_page_number }}">上页</a></li>
+      {% endif %}
+
+
+      {% build_paginators history_query_sets %}
+
+      {% if history_query_sets.has_next %}
+            <li class=""><a href="?page={{ history_query_sets.next_page_number }}">下页</a></li>
+      {% endif %}
+
+
+
+  </ul>
+</nav>
+
+
+
+
+<script type="text/javascript">
+
+
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+
+    alert('在ajaxSetup中');
+	var csrftoken = getCookie('csrftoken');
+	alert(csrftoken);
+	if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
+        }
+    }
+});
+
+
+var path = "{{ project_name }}"; //全局变量，默认为项目名称，即上传项目目录
+// var path = ""; //全局变量，默认为项目名称，即上传项目目录
+
+function upload(self, type) {
+    //alert('path是：' + path);
+    //var count = 100;// 每次上传100个文件
+    var pathname = window.location.pathname ; //url, 等于request.path，类似 /jenkins/id/
+    var xhr=new XMLHttpRequest();
+    xhr.open('post',pathname, true); // true表示异步（默认），false表示同步（不推荐）
+    //如果不继承form的csfs_token，可用此方法
+    var csrftoken = getCookie('csrftoken');
+    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+
+    // console.log(self.files);
+    var files = self.files;
+    var formData = new FormData();
+
+    // path = "{{ project_name|safe }}"; // 这样可以引用html中的django变量值
+
+    formData.append('type', type); // full：项目目录， inc：项目文件
+    formData.append('path', path); // 只对inc上传有意义
+    var filename = '';
+    for (var i = 0; i < files.length; i++) {
+        if (type === 'inc'){
+            filename = files[i].name;
+        }
+        else{
+            filename = files[i].webkitRelativePath.split('/').slice(0,-1).join('<:>') + '#' + files[i].name;
+        }
+
+        formData.append('file_list', files[i],   filename);
+    };
+
+
+
+    //下面这两个监听事件写在send前面比较保险，写在后面可能等文件发送完成了才会执行
+    xhr.onreadystatechange=function (){
+        if(xhr.readyState==4 && xhr.status==200) {
+            document.getElementById('upload_result').innerHTML = xhr.responseText;
+            //console.log("文件上传成功!");
+
+            // alert(path);
+            if ( type === "full" ){
+                //alert('进入full');
+                path = "{{ project_name }}"; //重置path
+                var div = document.getElementById("current_path");
+                var div_a = $("#current_path a[mytag='loop_file']");//查找ID为current_path下所有属性为mytag的a标签
+                var div_span = $("#current_path span");
+                for (var i=div_a.length;i>1; i--){
+                    div.removeChild(div_a[i-1]);
+                    div.removeChild(div_span[i-1]);
+                };
+
+            };
+
+            //alert("上传了");
+            //alert(path);
+            get_folder_file(path);
+
+            }
+
+    }
+    xhr.upload.onprogress = function (ev) {
+        if (ev.lengthComputable){
+            var count = Math.round(100*ev.loaded/ev.total); //四舍五入
+            var msg = ">";
+            msg = "进度: "  + msg.repeat(count)  + String(count) + "% "  ;
+            document.getElementById("upload_info").innerHTML=msg;
+            document.getElementById("upload_result").innerHTML="文件上传中, 请稍等...";
+        }
+    }
+    xhr.send(formData);
+
+
+}
+
+
+function add_path(self) {
+    //console.log("add_path");
+    path = "";//每次清空path
+    var all_a = $("#current_path a[mytag='loop_file']");//查找ID为current_path下所有属性为mytag的a标签
+    //alert('现在loop_file长度是' + all_a.length);
+    // var path = '';
+    for (var i=0, len=all_a.length; i<len; i++){
+        path = path + all_a[i].innerHTML + '>' ;
+
+    }
+    var div = document.getElementById("current_path");
+    var a = document.createElement("a");
+    a.setAttribute("mytag", "loop_file");//自定义的属性只能这样设置，不能直接a.mytag="loop_file"
+    //alert( (len+1) );
+    a.setAttribute("aid", String(len+1));
+    a.href = "javascript:void(0)";
+    a.onclick= function () { change_path(this) };
+    a.innerHTML = self.innerHTML;
+    div.appendChild(a);
+    var span = document.createElement("span");
+    span.innerHTML = ">";
+    span.setAttribute("sid", String(len+1));
+    div.appendChild(span);
+    path = path + self.innerHTML; //把点击的a标签加到path里
+    //document.getElementById("pathdiv").setAttribute("path", path);
+    //document.getElementById("pathdiv").innerHTML=path;
+    get_folder_file(path);
+
+}
+
+function change_path(self) {
+    path = "";
+    //console.log("change_path");
+    var div = document.getElementById("current_path");
+    var div_a = $("#current_path a[mytag='loop_file']");
+    // alert('change之前div a个数' + div_a.length);
+    var div_span = $("#current_path span");
+
+    current_id = Number(self.getAttribute("aid"));//获取、设置自定义属性只能用getAttribute setAttribute
+    //console.log('当前a标签id' + current_id );
+    //console.log('所有a标签个数' + div_a.length);
+
+    for (var i=div_a.length;i>current_id; i--){
+        div.removeChild(div_a[i-1]);
+        div.removeChild(div_span[i-1]);
+    }
+
+    var div_a = $("#current_path a[mytag='loop_file']");//必须重新赋值一遍
+    // alert('change之后div a个数' + div_a.length);
+    for (var i=0; i<div_a.length; i++){
+        if(i < div_a.length -1){
+            path = path + div_a[i].innerHTML + '>';
+        }
+        else{
+            path = path + div_a[i].innerHTML ;
+        }
+    }
+
+    //document.getElementById("pathdiv").setAttribute("path", path);
+    //document.getElementById("pathdiv").innerHTML=path;
+    get_folder_file(path);
+
+    
+}
+
+function get_folder_file(path) {
+    var pathname = window.location.pathname ; //url, 等于request.path，类似 /jenkins/id/
+    var xhr=new XMLHttpRequest();
+    //console.log('get>>>' + path);
+    xhr.open('GET',pathname + '?path=' + path , true);// true表示异步（默认），false表示同步（不推荐）
+    xhr.onreadystatechange=function (){
+        if(xhr.readyState==4 && xhr.status==200) {
+
+            var div = document.getElementById("display_path");
+            div.innerHTML = ''; //清空该div
+            var res = JSON.parse(xhr.responseText);
+            //res = xhr.responseText;
+            //console.log(res);
+
+            var folders = res['folders'];
+            var files = res['files'];
+
+            for (var i=0, len=folders.length; i<len; i++){
+                var a = document.createElement("a");
+                a.mytag="loop_file";
+                a.href = "javascript:void(0)";
+                a.onclick= function () { add_path(this) };
+                a.innerHTML=folders[i];
+                a.style.marginLeft = "10px";
+                div.appendChild(a);
+            }
+            for (var i=0, len=files.length; i<len; i++){
+                var span = document.createElement("span");
+                span.innerHTML=files[i];
+                span.style.marginLeft = "10px";
+                div.appendChild(span);
+            }
+            //document.getElementById('display_path').innerHTML = JSON.parse(xhr.responseText);
+        }
+        }
+    xhr.send(null);
+
+}
+
+</script>
+
+
+<script type="text/javascript">
+    // 文档加载后执行这个函数
+    window.onload=function () {
+
+        get_folder_file(path);
+
+    }
+
+
+</script>
+
+
+
+
+{% endblock %}

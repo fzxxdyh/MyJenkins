@@ -1,0 +1,25 @@
+{% extends 'jenkins/base.html' %}
+
+
+{% block content %}
+<div style="text-align: center;margin-right: 200px;">
+
+<br>
+    <h2>项目【 {{ projectname }} 】 构建日志：</h2>
+<br>
+
+
+{% for line in lines %}
+  <br />
+   {{ line }}
+
+{% endfor %}
+
+
+<br><br><br>
+
+
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+System check identified some issues:
+
+WARNINGS:
+jenkins.User.permiss: (fields.W340) null has no effect on ManyToManyField.
+
+System check identified 1 issue (0 silenced).
+[19/Sep/2018 10:51:52] "GET /jenkins/ HTTP/1.1" 200 7738
+[19/Sep/2018 10:51:59] "GET /admin/jenkins/user/2/change/ HTTP/1.1" 200 6817
+[19/Sep/2018 10:51:59] "GET /admin/jsi18n/ HTTP/1.1" 200 3189
+[19/Sep/2018 10:52:05] "POST /admin/jenkins/user/2/change/ HTTP/1.1" 302 0
+[19/Sep/2018 10:52:05] "GET /admin/jenkins/user/ HTTP/1.1" 200 6559
+[19/Sep/2018 10:52:05] "GET /admin/jsi18n/ HTTP/1.1" 200 3189
+[19/Sep/2018 10:52:11] "GET /jenkins/ HTTP/1.1" 200 5722
+[19/Sep/2018 10:52:11] "GET /static/img/favicon.ico HTTP/1.1" 200 1150
+[19/Sep/2018 10:52:18] "GET /jenkins/project/5/ HTTP/1.1" 200 13168
+[19/Sep/2018 10:52:18] "GET /static/img/favicon.ico HTTP/1.1" 200 1150
+[19/Sep/2018 10:52:23] "GET /jenkins/ HTTP/1.1" 200 5722
+[19/Sep/2018 10:52:23] "GET /static/img/favicon.ico HTTP/1.1" 200 1150
+[19/Sep/2018 10:52:26] "GET /account/logout/ HTTP/1.1" 302 0
+[19/Sep/2018 10:52:26] "GET /account/login/ HTTP/1.1" 200 3515
+[19/Sep/2018 10:52:26] "GET /static/img/favicon.ico HTTP/1.1" 200 1150
+[19/Sep/2018 10:52:31] "POST /account/login/ HTTP/1.1" 302 0
+[19/Sep/2018 10:52:31] "GET /jenkins/ HTTP/1.1" 200 5724
+[19/Sep/2018 10:52:31] "GET /static/img/favicon.ico HTTP/1.1" 200 1150
+[19/Sep/2018 10:52:35] "GET /account/logout/ HTTP/1.1" 302 0
+[19/Sep/2018 10:52:35] "GET /account/login/ HTTP/1.1" 200 3515
+[19/Sep/2018 10:52:35] "GET /static/img/favicon.ico HTTP/1.1" 200 1150
+[19/Sep/2018 10:52:40] "POST /account/login/ HTTP/1.1" 302 0
+[19/Sep/2018 10:52:40] "GET /jenkins/ HTTP/1.1" 200 6023
+[19/Sep/2018 10:52:40] "GET /static/img/favicon.ico HTTP/1.1" 200 1150
+[19/Sep/2018 10:52:46] "GET /account/logout/ HTTP/1.1" 302 0
+[19/Sep/2018 10:52:46] "GET /account/login/ HTTP/1.1" 200 3515
+[19/Sep/2018 10:52:46] "GET /static/img/favicon.ico HTTP/1.1" 200 1150
+[19/Sep/2018 10:52:50] "POST /account/login/ HTTP/1.1" 302 0
+[19/Sep/2018 10:52:50] "GET /jenkins/ HTTP/1.1" 200 5744
+[19/Sep/2018 10:52:50] "GET /static/img/favicon.ico HTTP/1.1" 200 1150
+[19/Sep/2018 10:52:58] "GET /account/logout/ HTTP/1.1" 302 0
+[19/Sep/2018 10:52:58] "GET /account/login/ HTTP/1.1" 200 3515
+[19/Sep/2018 10:52:58] "GET /static/img/favicon.ico HTTP/1.1" 200 1150
+[19/Sep/2018 10:53:03] "POST /account/login/ HTTP/1.1" 302 0
+[19/Sep/2018 10:53:03] "GET /jenkins/ HTTP/1.1" 200 5744
+[19/Sep/2018 10:53:03] "GET /static/img/favicon.ico HTTP/1.1" 200 1150
+[19/Sep/2018 10:53:27] "GET /account/logout/ HTTP/1.1" 302 0
+[19/Sep/2018 10:53:27] "GET /account/login/ HTTP/1.1" 200 3515
+[19/Sep/2018 10:53:32] "POST /account/login/ HTTP/1.1" 302 0
+[19/Sep/2018 10:53:32] "GET /jenkins/ HTTP/1.1" 200 7742

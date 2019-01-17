@@ -1,0 +1,29 @@
+{% extends 'jenkins/base.html' %}
+
+
+{% block content %}
+
+
+<br><br><br>
+
+<div class="panel panel-default" style="width:70%;margin:auto;">
+  <div class="panel-heading" style="background-color: #428bca;text-align: center;margin:auto;height: 50px;">
+    <h3 class="panel-title" style="line-height: 30px;font-size: 25px;">项目{{ project.project_name }}配置</h3>
+  </div>
+  <div class="panel-body" style=" width:70%;text-align: center;margin-left: 100px;font-size: 18px;">
+      <form method="post" action="{% url 'project_modify' project.id %}">
+          {% csrf_token %}
+
+
+          <br/><br/>
+          <label style="width:200px;">备注</label><textarea name="project_note" style="width: 600px;height: 80px;vertical-align: middle" >{{ project.project_note }}</textarea>
+          <br/><br/>
+          <label style="width:200px;">执行脚本</label><input name="project_script" style="width: 600px;height: 50px;" value="{{ project.project_script }}">
+          <br/><br/>
+          <button type="submit" style="margin-left:200px;height: 50px;width:60px;background-color: #c4e3f3">提交</button>
+      </form>
+
+  </div>
+</div>
+
+{% endblock %}
